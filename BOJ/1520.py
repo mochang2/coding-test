@@ -2,7 +2,9 @@
 211227
 골드4 내리막 길
 url: https://www.acmicpc.net/problem/1520
-후기: 
+후기: dfs + dp문제였다. 처음에는 시간을 단축하기 위해 이상한 논리로 접근하다가 틀렸고,
+두 번째는 정석적인 dfs를 돌리다가 시간초과가 났다. 결국 답을 봐서 풀 수 있었다.
+(수정중)
 """
 
 import sys
@@ -18,7 +20,7 @@ def dfs(y, x):
         if 0 <= new_y < M and 0 <= new_x < N and li[y][x] > li[new_y][new_x]:
             temp += dfs(new_y, new_x)
     dp[y][x] = temp
-    # 이거를 return 안 해서 고생함. 호출한 애는 return 값을 받아야 정상적으로 dfs + dp 값을 받음.
+    # return 안 해서 고생함. 호출한 애는 return 값을 받아야 정상적으로 dfs + dp 값을 받음.
     return temp
 
 # 목적지를 제외하고 dp를 처음에 -1로 초기화함.
