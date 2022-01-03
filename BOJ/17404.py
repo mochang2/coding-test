@@ -57,3 +57,31 @@ for i in range(1, N):
             B_dp[i][j] = min_RG(i, B_dp) + costs[i][j]
 
 print(min(R_dp[-1][1], R_dp[-1][2], G_dp[-1][0], G_dp[-1][2], B_dp[-1][0], B_dp[-1][1]))
+
+
+
+# 다른 사람의 코드
+## 바깥에 있는 for문을 집 색상을 기준으로 잡으니까 공간 효율성이 훨씬 좋아졌다.
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+colors = [list(map(int,input().split())) for _ in range(n)]
+result, inf = 1e9, 1e9
+
+for color in range(3): # 첫 집의 색상
+    dp = [[0 for _ in range(3)] for __ in range(n)]
+    for i in range(3):
+        if i == color:
+            dp[0][i] = colors[0][i]
+        else:
+            dp[0][i] = inf
+    for i in range(1, n):
+        dp[i][0] = colors[i][0] + min(dp[i-1][1],dp[i-1][2])
+        dp[i][1] = colors[i][1] + min(dp[i-1][0],dp[i-1][2])
+        dp[i][2] = colors[i][2] + min(dp[i-1][0],dp[i-1][1])
+
+    for i in range(3):
+        if i != color:
+            result = min(result, dp[-1][i])
+print(result)
