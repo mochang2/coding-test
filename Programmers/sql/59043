@@ -12,7 +12,7 @@ WHERE A.DATETIME > B.DATETIME
 ORDER BY A.DATETIME;
 
 
--- 코드를 입력하세요 : 오답
+-- 코드를 입력하세요 : 오답  -> A, B를 안 바꿔서 그랬다.
 SELECT A.ANIMAL_ID, A.NAME
 FROM ANIMAL_OUTS AS A
 LEFT JOIN ANIMAL_INS AS B
