@@ -1,0 +1,11 @@
+220226
+보호소에서 중성화한 동물
+url: https://programmers.co.kr/learn/courses/30/lessons/59045
+후기: 이제 점점 쉬워지고 있다. 참고로 같지 않다는 MYSQL에서 <> 로 쓰기도 한다.
+
+-- 코드를 입력하세요
+SELECT INS.ANIMAL_ID, INS.ANIMAL_TYPE, INS.NAME
+FROM ANIMAL_INS AS INS
+LEFT JOIN ANIMAL_OUTS AS OUTS
+ON INS.ANIMAL_ID = OUTS.ANIMAL_ID
+WHERE INS.SEX_UPON_INTAKE != OUTS.SEX_UPON_OUTCOME;
