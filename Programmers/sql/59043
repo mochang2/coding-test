@@ -1,0 +1,21 @@
+220225
+있었는데요 없었습니다
+url: https://programmers.co.kr/learn/courses/30/lessons/59043
+후기: join은 익혔는데... 외래키하고 섞이니까 이해가 안된다.
+
+-- 코드를 입력하세요 : 답
+SELECT A.ANIMAL_ID, A.NAME
+FROM ANIMAL_INS AS A
+LEFT JOIN ANIMAL_OUTS AS B
+ON A.ANIMAL_ID = B.ANIMAL_ID
+WHERE A.DATETIME > B.DATETIME
+ORDER BY A.DATETIME;
+
+
+-- 코드를 입력하세요 : 오답
+SELECT A.ANIMAL_ID, A.NAME
+FROM ANIMAL_OUTS AS A
+LEFT JOIN ANIMAL_INS AS B
+ON A.ANIMAL_ID = B.ANIMAL_ID
+WHERE A.DATETIME > B.DATETIME
+ORDER BY A.DATETIME;
