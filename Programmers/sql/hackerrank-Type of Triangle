@@ -1,0 +1,14 @@
+220226
+Type of Triangle
+url: https://www.hackerrank.com/challenges/what-type-of-triangle/problem?isFullScreen=true
+후기: mysql은 switch case 같은 구문으로 case(switch) when(case) then "어떤 이름" else(default) end 와 같은 구분이 있다.
+
+-- 코드를 입력하세요
+select
+    case
+        when A = B and B = C then 'Equilateral' 
+        when A >= B + C or B >= A + C or C >= A + B then 'Not A Triangle'
+        when A = B or B = C or A = C then 'Isosceles'
+        else "Scalene"
+        end
+from TRIANGLES;
