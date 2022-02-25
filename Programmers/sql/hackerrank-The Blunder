@@ -1,0 +1,11 @@
+220226
+The Blunder
+url: https://www.hackerrank.com/challenges/the-blunder/problem?isFullScreen=true
+후기: ceil, avg, cast, replace 등등 다양한 함수가 있다는 것을 알았다... 외워서는 못 풀겠다.
+
+-- 코드를 입력하세요
+select
+CEIL((select avg(Salary) from EMPLOYEES)
+-
+(select avg(cast(replace(cast(Salary as char(10)), '0', '') as UNSIGNED)) from EMPLOYEES))
+as difference;
