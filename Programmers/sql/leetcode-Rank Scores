@@ -1,0 +1,32 @@
+220226
+Rank Scores
+url: https://leetcode.com/problems/rank-scores/
+후기: 겁나 어렵다... 그냥 소마 통과할 정도로만 공부해야겠다. 공부하면 끝이 없다.
+
+-- 코드를 입력하세요
+select score, cast(@rank := @rank + (@prev != (@prev := score)) as unsigned) as 'rank'    # Because rank is a keyword of MySQL so it should be quoted by `.
+from Scores, (select @rank := 0, @prev := -1) as tmp
+order by score desc;
+
+# 설명
+# 1. 변수 선언은 select 안에서 말고 따로 set @rank := 0; select~ 이런 식으로 사용할 수도 있고, where 문 안에 들어갈 수도 있다.
+# 2. (@prev != (@prev := score)) 이거는 c 언어에서 함수 사용하는 방식 등으로 자주 사용하는 방식이다. rank는 ranking을, prev는 이전 row의 score를 저장하고 있다.
+# 3. type cast 방식은 cast(a as b), convert(a, b)로 가능하다. 이 문제는 type cast를 안 해도 맞는다.
+
+
+-- 다른 사람 답
+SELECT S.Score, COUNT(S2.Score) as `Rank`
+FROM Scores S,
+(SELECT DISTINCT Score FROM Scores) S2
+WHERE S.Score<=S2.Score
+GROUP BY S.Id
+ORDER BY S.Score DESC;
+
+# 설명
+1. (SELECT DISTINCT Score FROM Scores) S2 : Scores 테이블에서 유니크한 score만 가져와서 S2라 지칭한다.
+2. SELECT S.Score, COUNT(S2.Score) as `Rank`
+  FROM Scores S,
+  (SELECT DISTINCT Score FROM Scores) S2 : 1개의 열만 나온다. S.Score의 1열이 1행으로, count(S2) * count(S)가 2행으로. 이유는 잘 모르겠다.
+3. GROUP BY까지(where x) : count(S.Score)개의 열이 나온다. 1행에는 S.Score이, 2행에는 count(S2)가 나온다.
+4. WHERE : 각각의 열의 S.Score이 본인의 Score보다 크거나 같은 DISTINCT한 점수의 개수를 센다.
+5. ORDER BY까지 : 정렬한다.
