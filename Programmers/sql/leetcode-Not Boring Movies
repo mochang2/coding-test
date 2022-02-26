@@ -1,0 +1,10 @@
+220226
+Not Boring Movies
+url: https://leetcode.com/problems/not-boring-movies/
+후기: mod(나눠지는 수, 나누는수) = x
+
+-- 코드를 입력하세요
+select * 
+from Cinema 
+where mod(id,2) = 1 and description <> "boring" 
+order by rating desc;
