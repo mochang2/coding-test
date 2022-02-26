@@ -1,0 +1,16 @@
+220226
+Swap Salary
+url: https://leetcode.com/problems/swap-salary/
+후기: update 구문 익히기
+
+-- 코드를 입력하세요
+update Salary
+set sex = 
+    (case
+        when sex='m' then 'f'
+        else 'm'
+    end);
+   
+또는
+update Salary
+set sex = replace('fm', sex, '');
