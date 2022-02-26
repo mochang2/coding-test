@@ -1,0 +1,10 @@
+220226
+Duplicate Emails
+url: https://leetcode.com/problems/duplicate-emails/
+후기: group by + having. having count(*) 도 가능.
+
+-- 코드를 입력하세요
+select email as Email
+from Person
+group by email
+having count(email) >= 2;
