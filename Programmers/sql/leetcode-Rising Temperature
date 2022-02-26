@@ -1,0 +1,11 @@
+220226
+Rising Temperature
+url: https://leetcode.com/problems/rising-temperature/
+후기: inner join 반드시 join 뒤에 on이 올 필요는 없으며 from w1, w2로 해도 결과가 같다.
+
+-- 코드를 입력하세요
+select w1.id
+from Weather as w1
+inner join Weather as w2
+where datediff(w1.recordDate, w2.recordDate) = 1
+    and w1.temperature > w2.temperature;
