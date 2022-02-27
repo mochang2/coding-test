@@ -1,0 +1,9 @@
+220227
+모든 레코드 조회하기
+url: https://programmers.co.kr/learn/courses/30/lessons/59034
+후기: 딱 이 정도 수준이라니까 프로그래머스 위주로 SQL 공부하면 될 듯 싶다.
+
+-- 코드를 입력하세요
+SELECT * 
+FROM ANIMAL_INS 
+ORDER BY ANIMAL_ID;
