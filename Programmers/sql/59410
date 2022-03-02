@@ -1,0 +1,19 @@
+220302
+최댓값 구하기
+url: https://programmers.co.kr/learn/courses/30/lessons/59410
+후기: NULL은 = 나 <>로 처리하는 것이 아니라 IS로 처리한다.
+
+-- 코드를 입력하세요 # 맞음
+SELECT ANIMAL_TYPE, IF(NAME IS NULL, 'No name', NAME) AS NAME, SEX_UPON_INTAKE
+FROM ANIMAL_INS;
+
+
+# 틀림
+SELECT ANIMAL_TYPE,
+    CASE
+        WHEN NAME = NULL THEN 'No name'
+        ELSE NAME
+        END
+    AS NAME,
+    SEX_UPON_INTAKE
+FROM ANIMAL_INS;
