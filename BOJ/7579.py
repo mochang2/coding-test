@@ -2,6 +2,7 @@
 220303
 골드3 앱
 url: https://www.acmicpc.net/problem/7579
+12865도 배낭 dp이다. 같이 참고하자.
 후기: 답을 확인한 후에 풀 수 있었다(https://velog.io/@uoayop/BOJ-7579-%EC%95%B1Python).
 배낭 문제는 봐도봐도 문제가 새롭다... 풀이를 전부 이해한 후에야 작성할 수 있었다.
 
