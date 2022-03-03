@@ -1,0 +1,8 @@
+220303
+동물 수 구하기
+url: https://programmers.co.kr/learn/courses/30/lessons/59406
+후기: COUNT 사용법
+
+-- 코드를 입력하세요 # 맞음
+SELECT COUNT(ANIMAL_ID) AS 'count'
+FROM ANIMAL_INS;
