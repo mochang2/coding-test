@@ -1,0 +1,9 @@
+220303
+중복 제거하기
+url: https://programmers.co.kr/learn/courses/30/lessons/59408
+후기: 그냥 느낌대로 쳤는데 맞았다... COUNT, DISTINCT, IS NOT NULL 잘 기억해야겠다.
+
+-- 코드를 입력하세요 # 맞음
+SELECT COUNT(DISTINCT NAME)
+FROM ANIMAL_INS
+WHERE NAME IS NOT NULL;
