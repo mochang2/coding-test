@@ -1,0 +1,11 @@
+220304
+입양 시각 구하기(1)
+url: https://programmers.co.kr/learn/courses/30/lessons/59412
+후기: HOUR(DATETIME) AS H가 가장 중요했다. 10번째 줄의 조건은 문제를 대충 읽어서 추가하지 못하다가 답을 보고 알았다.
+
+-- 코드를 입력하세요
+SELECT HOUR(DATETIME) AS H, COUNT(ANIMAL_ID) AS 'COUNT'
+FROM ANIMAL_OUTS
+GROUP BY H
+HAVING H >= 9 AND H < 20
+ORDER BY HOUR(DATETIME); # ORDER BY H
