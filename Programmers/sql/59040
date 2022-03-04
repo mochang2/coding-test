@@ -1,0 +1,11 @@
+220304
+고양이와 개는 몇 마리 있을까
+url: https://programmers.co.kr/learn/courses/30/lessons/59040
+후기: SELECT, COUNT, FROM, WHERE, GROUP BY, ORDER BY 전부 다 썼다. 딱 소마 1차 코테가 이 정도이지 않을까 싶다.
+
+-- 코드를 입력하세요
+SELECT ANIMAL_TYPE, COUNT(ANIMAL_ID)
+FROM ANIMAL_INS
+WHERE ANIMAL_TYPE = 'Cat' OR ANIMAL_TYPE = 'Dog'
+GROUP BY ANIMAL_TYPE
+ORDER BY ANIMAL_TYPE;
