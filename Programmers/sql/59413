@@ -1,0 +1,29 @@
+220304
+입양 시각 구하기(2)
+url: https://programmers.co.kr/learn/courses/30/lessons/59413
+후기: 처음으로 프로그래머스 sql 문제에서 답을 봤다. 익숙한 문법이었으나 생각하기 쉽지 않았다, 특히 where 구문 생각하기가 어려운 것 같다.
+recursive 어쩌구 쓰는 풀이도 있었는데 그거는 문법을 몰라서 이해를 못했다.
+
+-- 코드를 입력하세요
+SET @HOUR := -1;
+
+SELECT (@HOUR := @HOUR + 1) AS HOUR,
+    (SELECT COUNT(ANIMAL_ID) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @HOUR) AS COUNT
+FROM ANIMAL_OUTS
+WHERE @HOUR < 23;
+
+# 또는
+
+SELECT (@HOUR := @HOUR + 1) AS HOUR,
+    (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @HOUR) AS COUNT
+FROM ANIMAL_OUTS,
+    (SELECT @HOUR := -1) AS TMP
+WHERE @HOUR < 23;
+
+# 또는
+
+SELECT @HOUR AS HOUR,
+    (SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = @HOUR) AS COUNT
+FROM ANIMAL_OUTS,
+    (SELECT @HOUR := -1) AS TMP
+WHERE (@HOUR := @HOUR + 1) < 24;
