@@ -3,6 +3,7 @@
 url: https://www.acmicpc.net/problem/2589
 후기: 약간 변형된 bfs + brute force 문제였다. python으로는 시간 초과가 나서 pypy로 풀었다.
 처음 위치를 Visited = True로 바꿔주지 않아서 첫 제출에서 틀렸었다.
+2638(치즈)나 17142(연구소3)를 풀어보지 않았다면 고민을 오래했을 것 같다.
 """
 
 import sys
@@ -32,7 +33,7 @@ def Bfs(pos_li):
 def CalcFarestLand(pos_li):
     res = 0
     while len(pos_li) != 0:
-        pos_li = Bfs(pos_li)
+        pos_li = Bfs(pos_li) # 변형된 bfs
         res += 1
         
     return res
