@@ -6,6 +6,7 @@ url: https://www.acmicpc.net/problem/1477
 휴게소의 "위치"가 중요한 게 아니라 휴게소 간의 "거리"가 중점이다.
 이유는 모르겠지만 초기 left를 0으로 설정하거나 left, right를 distance의 min, max 값으로 잡으면 틀린다.
 테스트 케이스 공개가 안돼서 도저히 이유는 모르겠고, 저것 때문에 결국 답을 찾아봤다.
+어떤 블로그를 보니 right는 L - 1로 해도 문제가 없는 것 같다.
 """
 
 import sys
