@@ -23,6 +23,7 @@ for i in range(M):
         adjacent[meet[0]].append(meet[1])
         adjacent[meet[1]].append(meet[0])
 
+# bfs
 for start in truth[1:]:
     visited[start] = True
     queue = deque([start])
@@ -33,6 +34,7 @@ for start in truth[1:]:
                 visited[friend] = True
                 queue.append(friend)
 
+# print
 cnt = 0
 for party in parties:
     flag = True
