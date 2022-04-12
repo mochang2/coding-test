@@ -4,6 +4,8 @@ url: https://leetcode.com/problems/increasing-triplet-subsequence/
 후기: 너무 복잡하게 생각했던 것 같다. LIS로 풀려고 했으나 처음에는 시간 초과가 났다.
 LIS를 N log N으로 풀 수 있는 방법이 있다고 하여 그 알고리즘을 보고 난 후에 풀 수 있었다.
 LIS에 대해서는 https://rebro.kr/33 에서 설명을 잘해놨다.
+
+boj 12015, 11055참조하기.
 */
 
 public class Solution {
