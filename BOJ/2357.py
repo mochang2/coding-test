@@ -1,7 +1,7 @@
 """
 20220416
 골드1 최솟값과 최댓값
-url: https://www.acmicpc.net/problem/18436
+url: https://www.acmicpc.net/problem/2357
 후기: 18436번을 풀고 세그먼트 트리를 연습하기 위해 바로 같이 풀었다.
 단순히 linear하게 접근하면 시간초과가 난다.
 그렇다고 부분합처럼 일정 구간의 최댓값, 최솟값을 저장해놓을 수도 없다.
@@ -12,6 +12,14 @@ url: https://www.acmicpc.net/problem/18436
 https://www.youtube.com/watch?v=075fcq7oCC8 여기 설명을 참고함.
 세그먼트 트리와 부분합은 모두 일정 구간에 대한 답(합, gcd, max, min 등)을 빠르게 구할 수 있음.
 다만 부분합과 달리 처음에 입력된 sequence가 변경되면 세그먼트 트리가 효율적이라고 함.
+
+https://www.acmicpc.net/source/42016629
+훨씬 빠르게, 저장 공간을 덜 사용하고 푼 사람이 있었는데,
+a = [int(input()) for _ in range(n)]
+h = math.ceil(math.log2(n))
+tree_size = 1 << (h+1)
+입력받고 segment tree 크기를 구하는 부분을 더 효율적으로 짜서 그런 것 같다.
+또한 (27, 28번째 줄)나처럼 maxInt, minInt를 선언한 것이 아닌, 문제에서 입력값의 최소, 최댓값 제한을 이용해서 풀었다.
 """
 
 import sys
