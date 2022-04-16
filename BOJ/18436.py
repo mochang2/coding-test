@@ -9,7 +9,7 @@ url: https://www.acmicpc.net/problem/18436
 세그먼트 트리. 0번째 인덱스는 사용하지 않음.
 이는 complete tree의 장점 leftChild의 인덱스가 2i, rightChild의 인덱스가 2i + 1임을 이용하기 위함.
 https://www.youtube.com/watch?v=075fcq7oCC8 여기 설명을 참고함.
-세그먼트 트리와 부분합은 모두 일정 구간에 대한 답(합, gcd, max, min 등을 빠르게 구할 수 있음.
+세그먼트 트리와 부분합은 모두 일정 구간에 대한 답(합, gcd, max, min 등)을 빠르게 구할 수 있음.
 다만 부분합과 달리 처음에 입력된 sequence가 변경되면 세그먼트 트리가 효율적이라고 함.
 """
 
