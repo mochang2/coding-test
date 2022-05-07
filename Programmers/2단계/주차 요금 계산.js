@@ -1,6 +1,5 @@
 /*
 220505
-정렬
 url: https://programmers.co.kr/learn/courses/30/lessons/92341
 후기: 우테캠이 js로만 볼 수 있어서 갑자기 js 코테 공부를 시작했다.
 
