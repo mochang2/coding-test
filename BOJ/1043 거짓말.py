@@ -6,6 +6,7 @@ url: https://www.acmicpc.net/problem/1043
 처음에는 union find라고 생각했는데 만약 처음에 진실을 아는 사람이 1명이 아니면 다수의 조상이 생겨서 다른 방법을 고민했다.
 여러 개의 시작점 + 하나의 그룹 => 시작점을 다양하게 하는 dfs/bfs가 문제푸는 방법이라 생각했고 구현하니 문제가 풀렸다.
 """
+
 import sys
 from itertools import combinations
 from collections import deque
