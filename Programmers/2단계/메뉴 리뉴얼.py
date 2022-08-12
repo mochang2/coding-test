@@ -1,16 +1,22 @@
 """
-220504
-2022 KAKAO BLIND RECRUITMENT
-url: https://programmers.co.kr/learn/courses/30/lessons/92335
-후기: 92334번 1단계보다는 오히려 쉬웠다.
-1. 문제의 요점은 주어진 수를 k진수의 문자열로 변환한 뒤
-2. 0을 기준으로 문자열을 나누고
-3. 해당 숫자들이 소수인지 판별한다.
+220812
+2021 KAKAO BLIND RECRUITMENT
+url: https://programmers.co.kr/learn/courses/30/lessons/72411
+후기: 문제가 이해가 안 됐다... 진짜 이건 내 국어 이슈가 아니라 문제 해석의 여지가 너무 다양하게 나온 거 같다.
 
-isPrime 함수에서 16, 17번째 줄 범위를 잘 설정하는 것이 중요했다.
-그냥 넉넉히 하기 위해 16번째 줄을 max_range = num // 2로 했다면 시간초과가 나며
-17번째 줄을 max_range + 2까지로 잡으면 num = 2일 때 범위 계산을 잘못해서 틀리게 된다.
+문제가 요구하는 바는 course에 입력된 숫자로 부분집합을 만들었을 때, 해당 부분집합이 총 몇 번 포함되었는지 계산하고
+그 포함된 횟수가 가장 많은 애를 return해라. 라는 의미였다.
+
+3중 for 문을 통해서 완탐했다.
+len(orders) = O(20)
+len(orders[0]) = O(10)
+len(course) = O(10)
+이므로 조합로 충분히 완탐이 가능하다고 생각했다.
+1차 for문은 course를 순회,
+2차 for문은 orders를 순회,
+3차 for문은 orders를 이용한 조합으로 순회했다.
 """
+
 from itertools import combinations
 
 def solution(orders, course):
@@ -30,14 +36,14 @@ def solution(orders, course):
                     dic[string] = 1
                     
         temp = [value for _, value in dic.items()] # max count를 세기 위함
-        temp.extend([0])
+        temp.extend([0]) # temp가 빈 list일 수도 있으므로 예외 처리
         max_string_count = max(temp)
+        
         if max_string_count < 2:
             continue
             
         for key, value in dic.items():
-            #print(key, value, max_string_count)
-            if value == max_string_count:
+            if value == max_string_count: # 개수가 같은 애들은 전부 return하라고 했으므로
                 answer.append(key)
 
     return sorted(answer)
