@@ -5,8 +5,7 @@ url: https://www.acmicpc.net/problem/2585
 후기: 처음에는 단순히 parametric search(+ greedy)인 줄 알고 풀었으나 아니었고, 틀렸다.
 예시를 든 것은 아니지만 아래 첫 번째 코드에서 틀릴만한 부분이 생각났다.
 
-이후 이분탐색 + bfs/dfs로 푸는 문제라는 것을 알았다.
-...
+이후 이분탐색 + 그래프 탐색으로 푸는 문제라는 것을 알고 '치즈' 문제처럼 deepcopy를 이용한 bfs로 풀었더니 해결됐다.
 """
 
 # 오답 코드
@@ -89,3 +88,88 @@ while min_fuel <= max_fuel:
     
 # print
 print(answer)
+
+
+# 정답 코드
+
+import sys
+from math import ceil
+from copy import deepcopy
+
+input_ = sys.stdin.readline
+
+def calcDistance(pos1: tuple, pos2: tuple) -> float:
+    y1, x1 = pos1
+    y2, x2 = pos2
+    
+    return ((y1 - y2) ** 2 + (x1 - x2) ** 2) ** 0.5
+
+def calcFuel(distance: float) -> int:
+    return ceil(distance / 10)
+
+def initVisited(length: int) -> list:
+    return [False for _ in range(length)]
+
+def bfs(start_index: int, fuel: int) -> int:
+    global costs, n, k
+    
+    count = 0
+    queue = [start_index] # 굳이 deque이 필요 없음
+    visited = initVisited(n + 2)
+    visited[start_index] = True
+
+    while queue:
+        next_queue = []
+        
+        while queue:
+            index = queue.pop()
+
+            for i in range(n + 2):
+                if not visited[i] and costs[index][i] <= fuel:
+                    if i == n + 1:
+                        return count
+                    visited[i] = True
+                    next_queue.append(i)
+
+        queue = deepcopy(next_queue)
+        count += 1
+
+    return k + 1 # 도달 불가능
+
+# initialization
+MAX_ = 1500 # 15000km를 갈 수 있는 연료통. start -> end를 한 번에 갈 수 있는 양
+answer = MAX_
+
+n, k = map(int, input_().strip().split()) # 비행장 수, 허용 중간급유 횟수
+positions = [(0, 0)] # 그래프 탐색 출발점
+positions.extend([tuple(map(int, input_().strip().split())) for _ in range(n)])
+positions.extend([(10000, 10000)]) # 그래프 탐색 도착점
+
+costs = [[MAX_ for _ in range(n + 2)] for __ in range(n + 2)]
+for i in range(n + 2):
+    for j in range(i + 1, n + 2):
+        distance = calcDistance(positions[i], positions[j])
+        fuel = calcFuel(distance)
+        costs[i][j] = fuel
+        costs[j][i] = fuel
+
+# binary search
+min_fuel = 1
+max_fuel = answer
+
+while min_fuel <= max_fuel:
+    current_pos_index = 0
+    current_pos = positions[current_pos_index]
+    fuel = (min_fuel + max_fuel) // 2
+
+    count = bfs(0, fuel)
+        
+    if count <= k: # k번 이내에 목적지 도착 가능
+        answer = min(answer, fuel)
+        max_fuel = fuel - 1
+    else:
+        min_fuel = fuel + 1
+    
+# print
+print(answer)
+
