@@ -70,7 +70,7 @@ def Update(queryIndex, newValue, node, rangeLeft, rangeRight): # 인덱스 하�
 ## 실제 코드
 # 홀수의 개수를 저장하는 세그먼트 트리를 만듦
 # 홀수의 개수를 원하면 세그먼트 트리 값의 합을 반환
-# 짝수의 개수를 원하면 last index - false index + 1 - 홀수의 개수(세그먼트 트리 참조)를 반환
+# 짝수의 개수를 원하면 last index - first index + 1 - 홀수의 개수(세그먼트 트리 참조)를 반환
 import sys
 input_ = sys.stdin.readline
 
