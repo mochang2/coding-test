@@ -1,7 +1,7 @@
 """
 20221011
 골드1 외판원 순회
-url: https://www.acmicpc.net/problem/1043
+url: https://www.acmicpc.net/problem/2098
 후기: 10971 외판원 순회2의 상위 버전이다.
 이 문제를 보기 전에 해당 문제 먼저 풀어볼 걸 그랬다...
 
@@ -81,7 +81,7 @@ def dfs(current, visited):
         
         min_cost = min(
             min_cost,
-            dfs(next_vertex, visited | (1 << next_vertex)) + costs[current][next_vertex]
+            dfs(next_vertex, visited | (1 << next_vertex)) + costs[current][next_vertex] # | 연산 대신 + 해도 되지만 bit 연산이 보통 더 빠름
         )
 
     dp[current][visited] = min_cost
