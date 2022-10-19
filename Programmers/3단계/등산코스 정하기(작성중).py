@@ -84,9 +84,9 @@ def solution(n, paths, gates, summits):
 
 
 # 두 번째 시도
-# summit일 때 break 또는 conitnue 하게 코드를 짜니 실패
+# 162번째 줄 break 또는 conitnue로 코드를 짜니 실패
 # break일 때 14, continue일 때 21 TC 실패
-# 14번의 예외는 알겠는데 21번의 예외는 모르겠음...
+# 14번의 예외는 알겠는데 21번 시간 초과의  모르겠음...
 """
 14번 TC 예외
 summit을 만나고 탐색 종료가 아닌, queue가 비었을 때 탐색 종료
