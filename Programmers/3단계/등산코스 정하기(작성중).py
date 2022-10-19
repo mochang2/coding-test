@@ -84,9 +84,8 @@ def solution(n, paths, gates, summits):
 
 
 # 두 번째 시도
-# 162번째 줄 break 또는 conitnue로 코드를 짜니 실패
+# 169번째 줄 break 또는 conitnue로 코드를 짜니 실패
 # break일 때 14, continue일 때 21 TC 실패
-# 14번의 예외는 알겠는데 21번 시간 초과의  모르겠음...
 """
 14번 TC 예외
 summit을 만나고 탐색 종료가 아닌, queue가 비었을 때 탐색 종료
@@ -95,6 +94,14 @@ summit을 만나고 탐색 종료가 아닌, queue가 비었을 때 탐색 종�
 
 입력: 5, [[1, 5, 1], [2, 4, 1], [3, 4, 1], [5, 3, 1]], [1, 2], [3,4]
 출력: [3, 1]
+"""
+"""
+21번 TC는 탐색을 중간에 끊어주지 않아서 생기는 것 같다.
+
+if current_intensity > min_intensities[current]:
+    continue
+    
+아래 마지막 성공한 코드에서 해당 코드를 추가해주면 시간 초과가 해결된다.
 """
 
 import heapq as h
@@ -171,75 +178,70 @@ def solution(n, paths, gates, summits):
 
 # 세 번째 시도
 # 정답
+# 위 예시들과 달리 cost를 intensity로 변수 이름을 통일했다.
+# 14, 21번 TC에서 틀렸던 부분은 while queue: 내에서 continue가 적혀 있는 부분으로 해결했다.
 
 import heapq as h
 
 MAX = 10000001
 
-def getIsSummit(n, summits):
-    is_summit = [False for _ in range(n + 1)]
+def getIs(n, li):
+    is_ = [False for _ in range(n + 1)]
 
-    for summit in summits:
-        is_summit[summit] = True
+    for index in li:
+        is_[index] = True
 
-    return is_summit
+    return is_
 
-def getIsGate(n, gates):
-    is_gate = [False for _ in range(n + 1)]
+def getIntensity(n, paths, is_gate):
+    intensities = [[] for _ in range(n + 1)]
 
-    for gate in gates:
-        is_gate[gate] = True
-
-    return is_gate
-
-def getCosts(n, paths, is_gate):
-    costs = [[] for _ in range(n + 1)]
-
-    for vertex1, vertex2, cost in paths: # 목적지가 gate인 것에 대해서는 관심 없음
+    for vertex1, vertex2, intensity in paths: # gate는 중간에 거쳐가면 안 되므로
         if not is_gate[vertex1]:
-            costs[vertex2].append([cost, vertex1])
+            intensities[vertex2].append((intensity, vertex1))
         if not is_gate[vertex2]:
-            costs[vertex1].append([cost, vertex2])       
+            intensities[vertex1].append((intensity, vertex2))
 
-    return costs
+    return intensities
 
 def initDijkstra(n, gates):
     global MAX
-
-    queue = []
-    min_costs = [MAX for _ in range(n + 1)] # 여러 출발지로부터 해당 vertex까지 가는 최소 비용
     
-    for gate in gates:
-        h.heappush(queue, [0, gate])
-        min_costs[gate] = 0
+    queue = []
+    min_intensities = [MAX for _ in range(n + 1)]
 
-    return queue, min_costs
+    for gate in gates:
+        h.heappush(queue, (0, gate))
+        min_intensities[gate] = 0
+
+    return queue, min_intensities
 
 def solution(n, paths, gates, summits):
     global MAX
     
-    answer = [n + 1, MAX] # [summit, max intensity]
-    is_summit = getIsSummit(n, summits)
-    is_gate = getIsGate(n, gates)
-    costs = getCosts(n, paths, is_gate) # 특정 vertex에서 다른 vertex로 가는 비용
-    queue, min_costs = initDijkstra(n, gates)
+    answer = [n + 1, MAX]
+    
+    is_summit = getIs(n, summits) # set을 사용하면 최악의 경우 O(n)이므로 boolean[] 선언
+    intensities = getIntensity(n, paths, getIs(n, gates))
+    queue, min_intensities = initDijkstra(n, gates) # (intensity, vertex)[], 각 vertex까지 도착하기 위해 최소 intensity
 
-    while queue: # 다익스트라
-        intensity, next_vertex = h.heappop(queue)
+    while queue:
+        current_intensity, current = h.heappop(queue)
 
-        if is_summit[next_vertex] or intensity > min_costs[next_vertex]: # summit 이거나 계산해도 의미가 없는 경우
+        if is_summit[current]:
+            if current_intensity < answer[1] or \
+               (current_intensity == answer[1] and current < answer[0]):
+                answer = [current, current_intensity]
             continue
 
-        for cost, adjacent in costs[next_vertex]:
-            new_intensity = max(intensity, cost)
-            
-            if new_intensity < min_costs[adjacent]: # adjacent까지 더 적은 intensity로 갈 수 있다면
-                min_costs[adjacent] = new_intensity
-                h.heappush(queue, [new_intensity, adjacent])
-    
-    for summit in summits:
-        if min_costs[summit] < answer[1] or \
-           (min_costs[summit] == answer[1] and summit < answer[0]):
-            answer = [summit, min_costs[summit]]
-    
+        if current_intensity > min_intensities[current]:
+            continue
+
+        for next_intensity, next_ in intensities[current]:
+            next_intensity = max(next_intensity, current_intensity) # next_까지 가는데 가장 높은 intensity가 해당 intensity
+
+            if next_intensity < min_intensities[next_]:
+                min_intensities[next_] = next_intensity
+                h.heappush(queue, (next_intensity, next_))
+
     return answer
