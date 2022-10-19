@@ -84,5 +84,162 @@ def solution(n, paths, gates, summits):
 
 
 # 두 번째 시도
+# summit일 때 break 또는 conitnue 하게 코드를 짜니 실패
+# break일 때 14, continue일 때 21 TC 실패
+# 14번의 예외는 알겠는데 21번의 예외는 모르겠음...
+"""
+14번 TC 예외
+summit을 만나고 탐색 종료가 아닌, queue가 비었을 때 탐색 종료
+
+3번 summit에 대한 탐색을 않고 종료
+
+입력: 5, [[1, 5, 1], [2, 4, 1], [3, 4, 1], [5, 3, 1]], [1, 2], [3,4]
+출력: [3, 1]
+"""
+
+import heapq as h
+
+MAX = 10000001
+
+def getIsSummit(n, summits):
+    is_summit = [False for _ in range(n + 1)]
+
+    for summit in summits:
+        is_summit[summit] = True
+
+    return is_summit
+
+def getIsGate(n, gates):
+    is_gate = [False for _ in range(n + 1)]
+
+    for gate in gates:
+        is_gate[gate] = True
+
+    return is_gate
+
+def getCosts(n, paths, is_gate):
+    costs = [[] for _ in range(n + 1)]
+
+    for vertex1, vertex2, cost in paths: # 목적지가 gate인 것에 대해서는 관심 없음
+        if not is_gate[vertex1]:
+            costs[vertex2].append([cost, vertex1])
+        if not is_gate[vertex2]:
+            costs[vertex1].append([cost, vertex2])       
+
+    return costs
+
+def initDijkstra(n, gates):
+    global MAX
+
+    queue = []
+    min_costs = [MAX for _ in range(n + 1)] # 여러 출발지로부터 해당 vertex까지 가는 최소 비용
+    
+    for gate in gates:
+        h.heappush(queue, [0, gate])
+        min_costs[gate] = 0
+
+    return queue, min_costs
+
+def solution(n, paths, gates, summits):
+    global MAX
+    
+    answer = [n + 1, MAX] # [summit, max intensity]
+    is_summit = getIsSummit(n, summits)
+    is_gate = getIsGate(n, gates)
+    costs = getCosts(n, paths, is_gate) # 특정 vertex에서 다른 vertex로 가는 비용
+    queue, min_costs = initDijkstra(n, gates)
+    
+    max_intensity = 0 # intensity 최댓값
+
+    while queue: # 다익스트라
+        intensity, next_vertex = h.heappop(queue)
+        max_intensity = max(max_intensity, intensity)
+
+        if is_summit[next_vertex]: # summit 이라면
+            if max_intensity < answer[1] or \
+               (max_intensity == answer[1] and next_vertex < answer[0]):
+                answer = [next_vertex, max_intensity]
+            break # continue
+
+        for cost, adjacent in costs[next_vertex]:
+            if cost < min_costs[adjacent]: # adjacent까지 더 적은 intensity로 갈 수 있다면
+                min_costs[adjacent] = cost
+                h.heappush(queue, [cost, adjacent])
+    
+    return answer
+
+
+# 세 번째 시도
 # 정답
 
+import heapq as h
+
+MAX = 10000001
+
+def getIsSummit(n, summits):
+    is_summit = [False for _ in range(n + 1)]
+
+    for summit in summits:
+        is_summit[summit] = True
+
+    return is_summit
+
+def getIsGate(n, gates):
+    is_gate = [False for _ in range(n + 1)]
+
+    for gate in gates:
+        is_gate[gate] = True
+
+    return is_gate
+
+def getCosts(n, paths, is_gate):
+    costs = [[] for _ in range(n + 1)]
+
+    for vertex1, vertex2, cost in paths: # 목적지가 gate인 것에 대해서는 관심 없음
+        if not is_gate[vertex1]:
+            costs[vertex2].append([cost, vertex1])
+        if not is_gate[vertex2]:
+            costs[vertex1].append([cost, vertex2])       
+
+    return costs
+
+def initDijkstra(n, gates):
+    global MAX
+
+    queue = []
+    min_costs = [MAX for _ in range(n + 1)] # 여러 출발지로부터 해당 vertex까지 가는 최소 비용
+    
+    for gate in gates:
+        h.heappush(queue, [0, gate])
+        min_costs[gate] = 0
+
+    return queue, min_costs
+
+def solution(n, paths, gates, summits):
+    global MAX
+    
+    answer = [n + 1, MAX] # [summit, max intensity]
+    is_summit = getIsSummit(n, summits)
+    is_gate = getIsGate(n, gates)
+    costs = getCosts(n, paths, is_gate) # 특정 vertex에서 다른 vertex로 가는 비용
+    queue, min_costs = initDijkstra(n, gates)
+
+    while queue: # 다익스트라
+        intensity, next_vertex = h.heappop(queue)
+
+        if is_summit[next_vertex] or intensity > min_costs[next_vertex]: # summit 이거나 계산해도 의미가 없는 경우
+            continue
+
+        for cost, adjacent in costs[next_vertex]:
+            new_intensity = max(intensity, cost)
+            
+            if new_intensity < min_costs[adjacent]: # adjacent까지 더 적은 intensity로 갈 수 있다면
+                min_costs[adjacent] = new_intensity
+                h.heappush(queue, [new_intensity, adjacent])
+    
+    for summit in summits:
+        if min_costs[summit] < answer[1] or \
+           (min_costs[summit] == answer[1] and summit < answer[0]):
+            answer = [summit, min_costs[summit]]
+    
+    return answer
