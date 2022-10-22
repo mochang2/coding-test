@@ -7,7 +7,7 @@ url: https://www.acmicpc.net/problem/4803
 문제에 나온 설명을 참고해보니 n개의 vertex에서 n - 1개의 edge만 있으면 트리가 된다는 결론을 얻었다.
 
 다음과 같이 풀었다.
-1번부터 n번까지의 vertex까지 방문되지 않은 지점을 start 지점(변수명: vertex)을 정한다.
+1번부터 n번까지의 vertex까지 방문되지 않은 지점을 start 지점(변수명: vertex)으로 정한다.
 인접한 vertex 중 방문하지 않은 vertex을 bfs로 방문한 뒤 해당 vertex에게 연결된 edge의 개수를 파악한다.
 해당 순회를 통해 찾은 vertex의 개수와 edge의 개수가 트리의 조건에 맞는지 확인한다.
 맞으면 tree += 1한다.
