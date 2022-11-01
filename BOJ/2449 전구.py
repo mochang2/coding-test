@@ -37,6 +37,8 @@ url: https://www.acmicpc.net/problem/2449
     위 식에서 0은 두 그룹의 색이 같을 때, 1은 두 그룹의 색이 다를 때를 의미한다.
     그룹의 색은 가장 왼쪽에 위치한 전구로 통일했는데, 어떤 위치의 전구로 색을 통일해도 최소값을 구하는데는 지장이 없다.
     (간단하게 3개의 전구 1 2 3, 1 1 1, 1 2 2 등을 합치는 최소 비용을 생각해보면 된다)
+4. 3을 min_costs[0][2], min_costs[1][3] ... min_costs[n - 3][n - 1], min_costs[0][3] ... min_costs[0][n - 1]까지 반복한다.
+5. min_costs[0][n - 1]을 반환한다.
 """
 
 # 오답
@@ -165,7 +167,7 @@ n, k = map(int, input_().strip().split())
 bulbs = list(map(int, input_().strip().split()))
 bulbs = removeSequentDuplicates(bulbs)
 min_costs = initializeMinCosts(len(bulbs))
-min_costs = calculateMinCosts(bulbs, min_costs[:])
+min_costs = calculateMinCosts(bulbs, min_costs[:]) # [:]는 min_costs가 바뀌지 않게 하려고 사실상 큰 의미는 없음
 
 # answer
 print(min_costs[0][-1])
