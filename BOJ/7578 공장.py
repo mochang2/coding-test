@@ -7,7 +7,7 @@ url: https://www.acmicpc.net/problem/7578
 배열의 인덱스 i, j에서 i < j일 때 arr[i] > arr[j]인 개수를 구하는 문제를 inversion couting이라고 한다.
 
 inversion counting을 해결할 수 있는 방법은 크게 두 가지가 있다.
-segment tree와 merge sort이다.
+segment tree와 merge sort, fenwick tree(Binary Indexed Tree, BIT)이다.
 
 나는 segment tree를 이용했고 다음과 같이 풀었다.
   1. 공장의 모든 bottom lane을 방문하지 않은 상태로 초기화한다.
@@ -15,7 +15,7 @@ segment tree와 merge sort이다.
   3. bottom lane에서 짝꿍의 오른쪽을 확인했을 때 먼저 방문한 지점의 개수를 확인한다. 해당 개수가 교차하는 개수이다.
   4. bottom lane에서 방문한 짝꿍을 방문했다고 표시한다.
 그림으로 이해하면 쉽다. https://justicehui.github.io/koi/2018/11/20/BOJ7578 에 잘 나와 있다.
-이 문제를 위해 segment tree를 이용한 이유는 완전 탐색을 하면 O(n^2)의 시간 복잡도가 걸리지만
+이 문제를 위해 segment tree를 이용한 이유는 매번 교차하는지 확인하여 완전 탐색을 하면 O(n^2)의 시간 복잡도가 걸리지만
 segment tree를 이용하면 O(n log n)으로 가능하기 때문이다.
 bottom lane의 특정 위치를 방문하지 않았음을 0으로, 방문했음으로 1로 표현한다면 방문 여부를 구간합처럼 표현할 수 있다.
 
@@ -24,6 +24,14 @@ merge sort는 정렬 시 합병 과정에서 교차하는 개수를 세면 된�
 (https://eine.tistory.com/entry/%EB%B0%B1%EC%A4%80-10090%EB%B2%88-%EB%AC%B8%EC%A0%9C-Counting-Inversions-%EB%AC%B8%EC%A0%9C-%ED%92%80%EC%9D%B4)
 이 문제에서 merge sort를 사용하면 sort를 위한 기준이 필요하고(기계의 번호는 unique id일 뿐 크기가 의미가 없으므로),
 쌍이 일치하도록 bottom lane을 한 번 더 순회해야 되기 때문에 나는 segement tree를 선택했다.
+
++) 추가
+아래 코드로 python3로 테스트하면 시간 초과가 난다.
+pypy3로 돌려서 시간 초과 없이 해결할 수 있었다.
+해당 문제는 fenwick tree로도 풀 수 있으며 python3로 통과한 코드는 모두 fenwick tree를 이용했다.
+아직 fenwick tree를 이용한 문제를 풀어보지 않아서 깊게 적지는 못 하겠지만
+한 가지 확실한 것은 fenwick tree는 segment tree보다 더 적은 공간을 사용하고 구간합을 O(n log n)의 시간 복잡도로 해결할 수 있다.
+다음은 동빈나의 구간합 설명 주소이다: https://www.youtube.com/watch?v=fg2iGP4e2mc
 
 
 다음은 내가 만든 테스트들이다(사실 이 문제의 요점은 엣지케이스에서 답이 맞냐보다는 효율성을 위주로 보는 느낌이긴 하다).
@@ -66,7 +74,7 @@ output
 
 5)
 input
-3
+5
 1 2 3 4 5
 3 4 1 2 5
 
@@ -75,7 +83,7 @@ output
 
 6)
 input
-3
+5
 1 2 3 4 5
 4 3 2 1 5
 
