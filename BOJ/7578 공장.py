@@ -31,7 +31,7 @@ pypy3로 돌려서 시간 초과 없이 해결할 수 있었다.
 해당 문제는 fenwick tree로도 풀 수 있으며 python3로 통과한 코드는 모두 fenwick tree를 이용했다.
 아직 fenwick tree를 이용한 문제를 풀어보지 않아서 깊게 적지는 못 하겠지만
 한 가지 확실한 것은 fenwick tree는 segment tree보다 더 적은 공간을 사용하고 구간합을 O(n log n)의 시간 복잡도로 해결할 수 있다.
-다음은 동빈나의 구간합 설명 주소이다: https://www.youtube.com/watch?v=fg2iGP4e2mc
+다음은 동빈나의 구간합 설명 주소이다: https://www.youtube.com/watch?v=fg2iGP4e2mc, https://www.crocus.co.kr/666
 
 
 다음은 내가 만든 테스트들이다(사실 이 문제의 요점은 엣지케이스에서 답이 맞냐보다는 효율성을 위주로 보는 느낌이긴 하다).
