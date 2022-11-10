@@ -29,9 +29,8 @@ merge sort는 정렬 시 합병 과정에서 교차하는 개수를 세면 된�
 아래 코드로 python3로 테스트하면 시간 초과가 난다.
 pypy3로 돌려서 시간 초과 없이 해결할 수 있었다.
 해당 문제는 fenwick tree로도 풀 수 있으며 python3로 통과한 코드는 모두 fenwick tree를 이용했다.
-아직 fenwick tree를 이용한 문제를 풀어보지 않아서 깊게 적지는 못 하겠지만
-한 가지 확실한 것은 fenwick tree는 segment tree보다 더 적은 공간을 사용하고 구간합을 O(n log n)의 시간 복잡도로 해결할 수 있다.
-다음은 동빈나의 구간합 설명 주소이다: https://www.youtube.com/watch?v=fg2iGP4e2mc, https://www.crocus.co.kr/666
+fenwick tree는 segment tree보다 더 적은 공간을 사용하고 구간합을 O(n log n)의 시간 복잡도로 해결할 수 있다.
+다음은 fenwick tree 설명 주소이다: https://www.youtube.com/watch?v=fg2iGP4e2mc, https://www.crocus.co.kr/666
 
 
 다음은 내가 만든 테스트들이다(사실 이 문제의 요점은 엣지케이스에서 답이 맞냐보다는 효율성을 위주로 보는 느낌이긴 하다).
@@ -91,6 +90,9 @@ output
 6
 """
 
+# 성공
+# segment tree 이용
+
 import sys
 
 input_ = sys.stdin.readline
@@ -104,7 +106,7 @@ def getPosition(iterable):
 
     return position
 
-def makeSegment(original_length):
+def initializeSegment(original_length):
     global SEGMENT_DEFAULT_VALUE
     
     return [SEGMENT_DEFAULT_VALUE for _ in range(original_length * 4)]
@@ -179,6 +181,79 @@ bottom_lane = tuple(map(int, input_().strip().split()))
 bottom_lane_position = getPosition(bottom_lane)
 
 # print answer
-segment = makeSegment(lane_length)
+segment = initializeSegment(lane_length)
 number_of_intersections =  countIntersections()
 print(number_of_intersections)
+
+
+
+# 성공
+# fenwick tree 이용
+# 파이썬에서 number & -number는 number를 2진수로 변경했을 때 1인 최하위 비트를 찾을 수 있음
+
+import sys
+
+input_ = sys.stdin.readline
+
+def getPosition(iterable):
+    position = dict()
+
+    for index, element in enumerate(iterable):
+        position[element] = index + 1
+
+    return position
+
+def initializeFenwick(length):
+    return [0 for _ in range(length)]
+
+def getLeastSignificantOneBit(number):
+    return number & -number
+
+def getIntervalSum(tree_index):
+    global fenwick
+
+    sum_ = 0
+
+    while tree_index > 0:
+        sum_ += fenwick[tree_index]
+        tree_index -= getLeastSignificantOneBit(tree_index)
+
+    return sum_
+
+def countInversion(position):
+    global lane_length
+
+    return getIntervalSum(lane_length) - getIntervalSum(position)
+
+def visit(tree_index, difference = 1):
+    global lane_length, fenwick
+    
+    while tree_index <= lane_length:
+        fenwick[tree_index] += difference
+        tree_index += getLeastSignificantOneBit(tree_index)
+
+def countIntersections():
+    global top_lane, bottom_lane, bottom_lane_position
+    
+    number_of_intersections = 0
+
+    for id_ in top_lane:
+        if id_ in bottom_lane_position:
+            position_in_bottom = bottom_lane_position[id_]
+
+            number_of_intersections += countInversion(position_in_bottom)
+            visit(position_in_bottom)
+
+    return number_of_intersections    
+
+# initialization
+lane_length = int(input_().strip())
+top_lane = tuple(map(int, input_().strip().split()))
+bottom_lane = tuple(map(int, input_().strip().split()))
+bottom_lane_position = getPosition(bottom_lane)
+
+# print answer
+fenwick = initializeFenwick(lane_length + 1)
+number_of_intersections =  countIntersections()
+print(number_of_intersections)
+
