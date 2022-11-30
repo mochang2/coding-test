@@ -45,6 +45,9 @@ def getTargetLines(stations_in_lines, start_station, end_station):
     return start_lines, end_lines
 
 def connectLines(stations_in_lines):
+    def hasIntersection(set1, set2):
+        return len(set1 & set2) != 0
+    
     number_of_lines = len(stations_in_lines)
     adjacent_lines = [set() for _ in range(number_of_lines)]
 
@@ -53,7 +56,7 @@ def connectLines(stations_in_lines):
             stations1 = stations_in_lines[line1]
             stations2 = stations_in_lines[line2]
             
-            if len(stations1 & stations2) != 0:
+            if hasIntersection(stations1, stations2):
                 adjacent_lines[line1].add(line2 + 1)
                 adjacent_lines[line2].add(line1 + 1)
 
@@ -77,7 +80,9 @@ def calculateTransfers(adjacent_lines, start_lines):
         transfer_count, line = reachable_lines.popleft()
 
         for adjacent_line in adjacent_lines[line - 1]:
-            if transfer_count + 1 >= transfers[adjacent_line]:
+            cannot_reach_with_lower_transfer_count = transfer_count + 1 >= transfers[adjacent_line]
+            
+            if cannot_reach_with_lower_transfer_count:
                 continue
 
             # 더 적게 환승할 수 있는 길 발견
