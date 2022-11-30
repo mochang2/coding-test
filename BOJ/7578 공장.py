@@ -6,7 +6,7 @@ url: https://www.acmicpc.net/problem/7578
 이 문제의 분류는 inversion couting이다.
 배열의 인덱스 i, j에서 i < j일 때 arr[i] > arr[j]인 개수를 구하는 문제를 inversion couting이라고 한다.
 
-inversion counting을 해결할 수 있는 방법은 크게 두 가지가 있다.
+inversion counting을 해결할 수 있는 방법은 크게 세 가지가 있다.
 segment tree와 merge sort, fenwick tree(Binary Indexed Tree, BIT)이다.
 
 나는 segment tree를 이용했고 다음과 같이 풀었다.
@@ -26,7 +26,7 @@ merge sort는 정렬 시 합병 과정에서 교차하는 개수를 세면 된�
 쌍이 일치하도록 bottom lane을 한 번 더 순회해야 되기 때문에 나는 segement tree를 선택했다.
 
 +) 추가
-아래 코드로 python3로 테스트하면 시간 초과가 난다.
+segment tree로 python3에서 테스트하면 시간 초과가 난다.
 pypy3로 돌려서 시간 초과 없이 해결할 수 있었다.
 해당 문제는 fenwick tree로도 풀 수 있으며 python3로 통과한 코드는 모두 fenwick tree를 이용했다.
 fenwick tree는 segment tree보다 더 적은 공간을 사용하고 구간합을 O(n log n)의 시간 복잡도로 해결할 수 있다.
@@ -75,7 +75,7 @@ output
 input
 5
 1 2 3 4 5
-3 4 1 2 5
+3 4 2 1 5
 
 output
 5
