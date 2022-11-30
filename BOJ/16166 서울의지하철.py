@@ -11,6 +11,10 @@ url: https://www.acmicpc.net/problem/16166
 2. 각 호선 간 어떻게 연결되어 있는지 파악한다.
 3. 출발 호선부터 도착 호선까지 몇 번 환승해야 하는지 계산한다.
 4. 최소 환승 횟수를 구한다.
+
++) 수정
+initializeTransferCounts 에서 adjacent_lines를 인자로 받았었는데, 사용하지 않아서 (제출은 다시 안 해봤지만)
+length를 인자로 받게 바꿨다.
 """
 
 import sys
@@ -55,10 +59,10 @@ def connectLines(stations_in_lines):
 
     return adjacent_lines
 
-def initializeTransferCounts(adjacent_lines, start_lines):
+def initializeTransferCounts(length, start_lines):
     global MAX_TRANSFER_COUNT
     
-    transfer_counts = [MAX_TRANSFER_COUNT for _ in range(len(adjacent_lines) + 1)]
+    transfer_counts = [MAX_TRANSFER_COUNT for _ in range(length)]
 
     for start_line in start_lines:
         transfer_counts[start_line] = 0
@@ -66,7 +70,7 @@ def initializeTransferCounts(adjacent_lines, start_lines):
     return transfer_counts
 
 def calculateTransfers(adjacent_lines, start_lines):
-    transfers = initializeTransferCounts(adjacent_lines, start_lines) # 각 호선으로 가기 위한 환승 횟수
+    transfers = initializeTransferCounts(len(adjacent_lines) + 1, start_lines) # 각 호선으로 가기 위한 환승 횟수
     reachable_lines = deque(map(lambda line:(0, line), start_lines)) # deque, (cost, line)[]
 
     while len(reachable_lines) != 0:
