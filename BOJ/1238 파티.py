@@ -1,5 +1,5 @@
 """
-20220315
+20230317
 골드3 파티
 url: https://www.acmicpc.net/problem/1238
 후기: 다익스트라 문제이다.
